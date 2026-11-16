@@ -59,15 +59,29 @@ A few things the dashboard makes visible: Sep–Nov 2011 brought in 35.8% of the
 
 The same clean data powers an interactive Looker Studio dashboard (KPI cards, monthly sales, top products and countries, a weekday-by-hour heatmap, and a short "what the data says" box): **[open it here](https://datastudio.google.com/reporting/40d68cb5-a199-4516-911c-f0de41a53d7e)**. The Thai step-by-step build guide is in `looker_studio_guide.md`.
 
+![Looker Studio overview](images/looker_overview.png)
+
+![Looker Studio products and countries](images/looker_products_countries.png)
+
+![Looker Studio heatmap and insights](images/looker_heatmap_insights.png)
+
 ### Dashboard (HTML)
 
 ![Dashboard desktop](images/dashboard_desktop.png)
 
 `dashboard.html` is a single file: open it in any browser. Charts are plain SVG/CSS, with tooltips on hover or tap.
 
+On a phone:
+
+![Dashboard mobile](images/dashboard_mobile_3up.png)
+
 ### Excel report
 
 `sales_report.xlsx` has six sheets: Summary (KPIs, monthly table, top products, top countries, charts), Data, Returns, helper sheets for ranking, and a Thai data-quality report. Every number on the summary sheet is a formula over the data sheets. Colours are consistent everywhere: blue = sales, orange = returns, green = net.
+
+![Excel summary sheet](images/excel_summary.png)
+
+![Excel data-quality sheet](images/excel_data_quality.png)
 
 ## How to run
 
