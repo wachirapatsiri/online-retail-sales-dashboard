@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>แดชบอร์ดยอดขาย (ตัวอย่าง)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F8FC; --card: #FFFFFF; --ink: #0F172A; --ink2: #475569; --muted: #94A3B8;
+    --line: #E2E8F0; --blue: #2563EB; --blue-dark: #1E3A8A; --blue-soft: #DBEAFE; --blue-pale: #EFF6FF;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "IBM Plex Sans Thai", "Noto Sans Thai", "Leelawadee UI", Thonburi, Tahoma, sans-serif;
+    font-size: 15px; line-height: 1.55; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 28px 20px 40px; }
+  header { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 8px 24px; margin-bottom: 20px; }
+  h1 { font-size: 26px; line-height: 1.25; margin: 0; color: var(--blue-dark); font-weight: 700; }
+  .sub { color: var(--ink2); margin: 4px 0 0; }
+  .pill { display: inline-block; background: var(--blue-soft); color: var(--blue-dark); border-radius: 999px; padding: 4px 12px; font-size: 13px; font-weight: 500; white-space: nowrap; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 14px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; min-width: 0; }
+  .kpi { border-top: 3px solid var(--blue); }
+  .kpi .label { color: var(--ink2); font-size: 14px; }
+  .kpi .value { font-size: 28px; font-weight: 700; color: var(--blue-dark); line-height: 1.25; margin: 2px 0; font-variant-numeric: tabular-nums; }
+  .kpi .note { color: var(--muted); font-size: 13px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+  h2 { font-size: 17px; margin: 0; font-weight: 600; }
+  .desc { color: var(--ink2); font-size: 13.5px; margin: 2px 0 14px; }
+  .head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  svg { display: block; width: 100%; height: auto; overflow: visible; }
+  svg text { font-family: inherit; fill: var(--ink2); font-size: 12px; }
+  .bar { fill: var(--blue); } .bar.partial { fill: #93C5FD; }
+  .bar:hover, .hbar:hover .fill, .cell:hover { filter: brightness(0.9); }
+  .hbar { display: grid; grid-template-columns: minmax(0, 46%) 1fr auto; align-items: center; gap: 10px; padding: 5px 0; cursor: default; }
+  .hbar .name { font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hbar .rank { color: var(--muted); display: inline-block; width: 1.6em; font-variant-numeric: tabular-nums; }
+  .hbar .track { height: 14px; background: var(--blue-pale); border-radius: 4px; }
+  .hbar .fill { height: 100%; background: var(--blue); border-radius: 0 4px 4px 0; min-width: 2px; }
+  .hbar .val { font-size: 13.5px; font-weight: 600; font-variant-numeric: tabular-nums; min-width: 5.2em; text-align: right; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; flex: none; }
+  .seg button { font: inherit; font-size: 13px; padding: 5px 10px; border: 0; background: #fff; color: var(--ink2); cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: var(--blue); color: #fff; }
+  .heat { display: grid; gap: 2px; align-items: center; }
+  .heat .hl { font-size: 12px; color: var(--ink2); text-align: center; }
+  .heat .dl { font-size: 13px; color: var(--ink2); padding-right: 8px; white-space: nowrap; }
+  .cell { aspect-ratio: 1.5 / 1; border-radius: 3px; background: #F1F5F9; }
+  .legend { display: flex; align-items: center; gap: 8px; color: var(--ink2); font-size: 12.5px; margin-top: 12px; flex-wrap: wrap; }
+  .ramp { display: inline-flex; gap: 2px; } .ramp i { width: 22px; height: 12px; border-radius: 2px; display: block; }
+  .sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; vertical-align: -1px; margin-right: 4px; }
+  .insight { background: var(--blue-pale); border-radius: 10px; padding: 10px 14px; margin-top: 14px; font-size: 14px; color: var(--blue-dark); }
+  footer { color: var(--muted); font-size: 12.5px; margin-top: 22px; line-height: 1.7; }
+  footer a { color: inherit; }
+  #tip { position: fixed; z-index: 10; pointer-events: none; background: var(--ink); color: #fff; padding: 8px 12px; border-radius: 8px; font-size: 13px; line-height: 1.5; max-width: 260px; opacity: 0; transition: opacity .1s; box-shadow: 0 6px 20px rgba(15,23,42,.18); }
+  #tip b { display: block; font-weight: 600; }
+  @media (max-width: 980px) {
+    .grid2 { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 760px) {
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .wrap { padding: 18px 12px 28px; } h1 { font-size: 21px; } .card { padding: 14px; border-radius: 12px; }
+    .kpis { gap: 10px; } .kpi .value { font-size: 21px; } .kpi .label { font-size: 13px; } .kpi .note { font-size: 12px; }
+    .hbar { grid-template-columns: 1fr auto; gap: 2px 10px; padding: 6px 0; }
+    .hbar .name { grid-column: 1 / 2; } .hbar .val { grid-column: 2 / 3; grid-row: 1; } .hbar .track { grid-column: 1 / 3; height: 10px; }
+    .heat .hl { font-size: 10px; } .heat .dl { font-size: 11.5px; padding-right: 4px; } .cell { aspect-ratio: 1 / 1.25; border-radius: 2px; }
+    .head { flex-direction: column; gap: 6px; } .desc { margin-top: 6px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>แดชบอร์ดยอดขายร้านค้าออนไลน์</h1>
+      <p class="sub">ข้อมูล <span id="period"></span> · หลังทำความสะอาดข้อมูลแล้ว</p>
+    </div>
+    <span class="pill">หน่วยเงิน: ปอนด์ (GBP, £)</span>
+  </header>
+
+  <section class="kpis" id="kpis"></section>
+
+  <section class="card">
+    <h2>ยอดขายรายเดือน</h2>
+    <p class="desc">หน่วย: ล้านปอนด์ (£) · แตะหรือชี้ที่แท่งเพื่อดูตัวเลข</p>
+    <div id="monthly"></div>
+    <div class="legend"><span><i class="sw" style="background:#2563EB"></i>เดือนเต็ม</span><span><i class="sw" style="background:#93C5FD"></i><span id="partialNote"></span></span></div>
+    <div class="insight" id="insightMonth"></div>
+  </section>
+
+  <div class="grid2">
+    <section class="card">
+      <h2>สินค้าขายดี 10 อันดับ</h2>
+      <p class="desc">เรียงตามยอดขาย (£)</p>
+      <div id="products"></div>
+    </section>
+    <section class="card">
+      <div class="head">
+        <div><h2>ประเทศที่ขายได้มากสุด</h2></div>
+        <div class="seg" role="group" aria-label="เลือกมุมมองประเทศ">
+          <button type="button" id="btnAll" aria-pressed="true">ทุกประเทศ</button>
+          <button type="button" id="btnEx" aria-pressed="false">ไม่รวมอันดับ 1</button>
+        </div>
+      </div>
+      <p class="desc" id="countryDesc"></p>
+      <div id="countries"></div>
+    </section>
+  </div>
+
+  <section class="card" style="margin-top:14px">
+    <h2>ช่วงเวลาที่ขายดี</h2>
+    <p class="desc">ยอดขาย (£) แยกตามวันในสัปดาห์และชั่วโมง · สีเข้ม = ขายดี</p>
+    <div class="heat" id="heat"></div>
+    <div class="legend"><span>น้อย</span><span class="ramp" id="ramp"></span><span>มาก</span><span><i class="sw" style="background:#F1F5F9;border:1px solid #E2E8F0"></i>ไม่มียอดขาย</span></div>
+    <div class="insight" id="insightHeat"></div>
+  </section>
+
+  <footer>
+    ผลงานตัวอย่าง: จัดระเบียบไฟล์ยอดขายและทำแดชบอร์ด · ตัวเลขทั้งหมดคำนวณจากข้อมูลจริงหลังทำความสะอาด (ไม่รวมรายการยกเลิก ค่าส่ง ค่าธรรมเนียม และแถวซ้ำ)<br>
+    ที่มาข้อมูล: Chen, D. (2012). Online Retail II [Dataset]. UCI Machine Learning Repository.
+    <a href="https://doi.org/10.24432/C5CG6D">https://doi.org/10.24432/C5CG6D</a> (CC BY 4.0)
+  </footer>
+</div>
+<div id="tip" role="tooltip"></div>
+
+<script>
+const DATA = {"kpi":{"sales":9999625.94,"orders":19771,"aov":505.77,"returns":230217.96,"return_rate":2.3,"net":9769407.98,"units":5405777,"customers":4333,"countries":38,"products":3794},"period":{"from":"1 ธ.ค. 2010","to":"9 ธ.ค. 2011"},"monthly":[{"m":"2010-12","label":"ธ.ค. 10","full":"ธ.ค. 2010","sales":775638.36,"orders":1550,"partial":false},{"m":"2011-01","label":"ม.ค. 11","full":"ม.ค. 2011","sales":593196.64,"orders":1080,"partial":false},{"m":"2011-02","label":"ก.พ. 11","full":"ก.พ. 2011","sales":507799.87,"orders":1093,"partial":false},{"m":"2011-03","label":"มี.ค. 11","full":"มี.ค. 2011","sales":689833.51,"orders":1440,"partial":false},{"m":"2011-04","label":"เม.ย. 11","full":"เม.ย. 2011","sales":515377.99,"orders":1235,"partial":false},{"m":"2011-05","label":"พ.ค. 11","full":"พ.ค. 2011","sales":739923.15,"orders":1668,"partial":false},{"m":"2011-06","label":"มิ.ย. 11","full":"มิ.ย. 2011","sales":737408.98,"orders":1525,"partial":false},{"m":"2011-07","label":"ก.ค. 11","full":"ก.ค. 2011","sales":688046.84,"orders":1452,"partial":false},{"m":"2011-08","label":"ส.ค. 11","full":"ส.ค. 2011","sales":723990.67,"orders":1339,"partial":false},{"m":"2011-09","label":"ก.ย. 11","full":"ก.ย. 2011","sales":1028192.88,"orders":1818,"partial":false},{"m":"2011-10","label":"ต.ค. 11","full":"ต.ค. 2011","sales":1103186.75,"orders":2005,"partial":false},{"m":"2011-11","label":"พ.ย. 11","full":"พ.ย. 2011","sales":1451166.48,"orders":2751,"partial":false},{"m":"2011-12","label":"ธ.ค. 11","full":"ธ.ค. 2011","sales":445863.82,"orders":815,"partial":true}],"products":[{"code":"22423","name":"REGENCY CAKESTAND 3 TIER","sales":174156.54,"qty":13851},{"code":"85123A","name":"WHITE HANGING HEART T-LIGHT HOLDER","sales":106415.23,"qty":37933},{"code":"47566","name":"PARTY BUNTING","sales":99445.23,"qty":18283},{"code":"85099B","name":"JUMBO BAG RED RETROSPOT","sales":94159.81,"qty":48371},{"code":"23084","name":"RABBIT NIGHT LIGHT","sales":66870.03,"qty":30739},{"code":"22086","name":"PAPER CHAIN KIT 50'S CHRISTMAS","sales":64875.59,"qty":19329},{"code":"84879","name":"ASSORTED COLOUR BIRD ORNAMENT","sales":58927.62,"qty":36362},{"code":"79321","name":"CHILLI LIGHTS","sales":54096.36,"qty":10302},{"code":"22502","name":"PICNIC BASKET WICKER SMALL","sales":51408.77,"qty":1937},{"code":"22197","name":"POPCORN HOLDER","sales":51334.47,"qty":56898}],"countries":[{"name":"United Kingdom","sales":8476865.29,"orders":17899},{"name":"Netherlands","sales":283889.34,"orders":93},{"name":"Ireland","sales":270843.36,"orders":282},{"name":"Germany","sales":205381.15,"orders":443},{"name":"France","sales":184485.5,"orders":382},{"name":"Australia","sales":138103.81,"orders":56},{"name":"Spain","sales":55706.56,"orders":88},{"name":"Switzerland","sales":53065.6,"orders":50},{"name":"Japan","sales":37416.37,"orders":19},{"name":"Belgium","sales":36927.34,"orders":98},{"name":"Sweden","sales":36828.83,"orders":34}],"heat":[{"d":1,"h":7,"sales":1444.58,"orders":4},{"d":1,"h":8,"sales":44325.79,"orders":89},{"d":1,"h":9,"sales":150978.24,"orders":274},{"d":1,"h":10,"sales":212996.38,"orders":350},{"d":1,"h":11,"sales":173201.21,"orders":348},{"d":1,"h":12,"sales":191289.08,"orders":494},{"d":1,"h":13,"sales":228932.23,"orders":446},{"d":1,"h":14,"sales":206273.65,"orders":386},{"d":1,"h":15,"sales":181779.98,"orders":360},{"d":1,"h":16,"sales":111990.37,"orders":231},{"d":1,"h":17,"sales":177100.84,"orders":92},{"d":1,"h":18,"sales":2218.17,"orders":2},{"d":2,"h":7,"sales":1962.58,"orders":5},{"d":2,"h":8,"sales":71777.71,"orders":117},{"d":2,"h":9,"sales":184909.74,"orders":309},{"d":2,"h":10,"sales":255650.59,"orders":410},{"d":2,"h":11,"sales":278228.91,"orders":425},{"d":2,"h":12,"sales":260206.51,"orders":552},{"d":2,"h":13,"sales":231154.06,"orders":499},{"d":2,"h":14,"sales":191962.93,"orders":413},{"d":2,"h":15,"sales":290362.57,"orders":447},{"d":2,"h":16,"sales":173409.69,"orders":207},{"d":2,"h":17,"sales":52344.77,"orders":115},{"d":2,"h":18,"sales":15575.83,"orders":9},{"d":3,"h":7,"sales":3343.46,"orders":5},{"d":3,"h":8,"sales":44656.27,"orders":116},{"d":3,"h":9,"sales":135515.25,"orders":301},{"d":3,"h":10,"sales":258502.94,"orders":443},{"d":3,"h":11,"sales":217326.13,"orders":426},{"d":3,"h":12,"sales":288016.95,"orders":626},{"d":3,"h":13,"sales":229346.99,"orders":508},{"d":3,"h":14,"sales":194760.16,"orders":449},{"d":3,"h":15,"sales":230510.64,"orders":424},{"d":3,"h":16,"sales":122494.41,"orders":262},{"d":3,"h":17,"sales":41060.74,"orders":104},{"d":3,"h":19,"sales":2893.4,"orders":2},{"d":3,"h":20,"sales":13031.5,"orders":1},{"d":4,"h":6,"sales":4.25,"orders":1},{"d":4,"h":7,"sales":6883.71,"orders":9},{"d":4,"h":8,"sales":66719.2,"orders":122},{"d":4,"h":9,"sales":158796.24,"orders":303},{"d":4,"h":10,"sales":296192.57,"orders":458},{"d":4,"h":11,"sales":181343.69,"orders":387},{"d":4,"h":12,"sales":283805.93,"orders":592},{"d":4,"h":13,"sales":198220.26,"orders":490},{"d":4,"h":14,"sales":208642.68,"orders":463},{"d":4,"h":15,"sales":255602.73,"orders":448},{"d":4,"h":16,"sales":184459.83,"orders":348},{"d":4,"h":17,"sales":117863.11,"orders":260},{"d":4,"h":18,"sales":121202.12,"orders":179},{"d":4,"h":19,"sales":45832.22,"orders":134},{"d":4,"h":20,"sales":5780.34,"orders":16},{"d":5,"h":7,"sales":16834.88,"orders":6},{"d":5,"h":8,"sales":51803.71,"orders":121},{"d":5,"h":9,"sales":156217.29,"orders":281},{"d":5,"h":10,"sales":220240.31,"orders":452},{"d":5,"h":11,"sales":201072.27,"orders":397},{"d":5,"h":12,"sales":236671.77,"orders":480},{"d":5,"h":13,"sales":188300.32,"orders":426},{"d":5,"h":14,"sales":210063.64,"orders":398},{"d":5,"h":15,"sales":187253.85,"orders":291},{"d":5,"h":16,"sales":77001.47,"orders":153},{"d":5,"h":17,"sales":52547.92,"orders":91},{"d":5,"h":18,"sales":75.5,"orders":2},{"d":5,"h":19,"sales":373.04,"orders":9},{"d":5,"h":20,"sales":19.19,"orders":1},{"d":7,"h":9,"sales":778.8,"orders":2},{"d":7,"h":10,"sales":80762.64,"orders":225},{"d":7,"h":11,"sales":145502.99,"orders":390},{"d":7,"h":12,"sales":152608.58,"orders":461},{"d":7,"h":13,"sales":143626.82,"orders":361},{"d":7,"h":14,"sales":107767.56,"orders":310},{"d":7,"h":15,"sales":128079.38,"orders":340},{"d":7,"h":16,"sales":39139.88,"orders":114}],"weekdays":["จันทร์","อังคาร","พุธ","พฤหัสบดี","ศุกร์","เสาร์","อาทิตย์"],"hours":[6,20]};
+const $ = (id) => document.getElementById(id);
+const gbp = (v, d = 2) => "£" + v.toLocaleString("en-GB", { minimumFractionDigits: d, maximumFractionDigits: d });
+const num = (v) => v.toLocaleString("en-GB");
+const mil = (v) => "£" + (v / 1e6).toFixed(2) + " ล้าน";
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+// ---------- KPI ----------
+const k = DATA.kpi;
+$("period").textContent = DATA.period.from + " – " + DATA.period.to;
+$("kpis").innerHTML = [
+  ["ยอดขายรวม", mil(k.sales), gbp(k.sales) + " (ก่อนหักคืนสินค้า)"],
+  ["จำนวนออร์เดอร์", num(k.orders), "สินค้า " + num(k.units) + " ชิ้น"],
+  ["ยอดเฉลี่ยต่อออร์เดอร์", gbp(k.aov), "ยอดขาย ÷ จำนวนออร์เดอร์"],
+  ["อัตราคืนสินค้า", k.return_rate.toFixed(2) + "%", "ยอดคืน " + gbp(k.returns)],
+].map(([l, v, n]) => `<div class="card kpi"><div class="label">${l}</div><div class="value">${v}</div><div class="note">${n}</div></div>`).join("");
+
+// ---------- ยอดขายรายเดือน ----------
+function drawMonthly() {
+  const el = $("monthly"), W = Math.max(300, el.clientWidth), small = W < 520;
+  const H = small ? 220 : 280, m = { l: 34, r: 6, t: 22, b: 26 };
+  const data = DATA.monthly, max = Math.max(...data.map((d) => d.sales));
+  const step = 0.4e6, top = Math.ceil(max / step) * step;
+  const iw = W - m.l - m.r, ih = H - m.t - m.b, bw = iw / data.length, w = Math.min(44, bw - (small ? 5 : 12));
+  const y = (v) => m.t + ih - (v / top) * ih;
+  const best = data.reduce((a, b) => (b.sales > a.sales ? b : a));
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="กราฟแท่งยอดขายรายเดือน">`;
+  for (let v = 0; v <= top + 1; v += step) {
+    s += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="${v ? "#E2E8F0" : "#CBD5E1"}"/>`;
+    s += `<text x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${(v / 1e6).toFixed(1)}</text>`;
+  }
+  data.forEach((d, i) => {
+    const x = m.l + i * bw + (bw - w) / 2, yy = y(d.sales), h = m.t + ih - yy, r = Math.min(4, w / 2, h);
+    const tip = `<b>${d.full}${d.partial ? " (ไม่ครบเดือน)" : ""}</b>ยอดขาย ${gbp(d.sales)}<br>${num(d.orders)} ออร์เดอร์`;
+    s += `<path class="bar${d.partial ? " partial" : ""}" data-tip="${esc(tip)}" d="M${x},${yy + h} V${yy + r} Q${x},${yy} ${x + r},${yy} H${x + w - r} Q${x + w},${yy} ${x + w},${yy + r} V${yy + h} Z"/>`;
+    if (d === best) s += `<text x="${x + w / 2}" y="${yy - 6}" text-anchor="middle" style="font-weight:600;fill:#1E3A8A">${(d.sales / 1e6).toFixed(2)}</text>`;
+    if (!small || i % 3 === 0) s += `<text x="${x + w / 2}" y="${H - 8}" text-anchor="middle">${d.label}</text>`;
+  });
+  el.innerHTML = s + "</svg>";
+}
+(() => {
+  const data = DATA.monthly, best = data.reduce((a, b) => (b.sales > a.sales ? b : a));
+  const full = data.filter((d) => !d.partial), low = full.reduce((a, b) => (b.sales < a.sales ? b : a));
+  const p = data.find((d) => d.partial);
+  $("partialNote").textContent = p ? `${p.full} ข้อมูลถึงวันที่ ${DATA.period.to.split(" ")[0]} (ไม่ครบเดือน)` : "เดือนที่ข้อมูลไม่ครบ";
+  $("insightMonth").innerHTML = `เดือนที่ขายดีที่สุดคือ <b>${best.full}</b> ยอดขาย ${gbp(best.sales)} สูงกว่าเดือนที่ขายน้อยที่สุด (${low.full}) ${(best.sales / low.sales).toFixed(1)} เท่า`;
+})();
+
+// ---------- แท่งแนวนอน ----------
+function hbars(el, rows, startRank) {
+  const max = Math.max(...rows.map((r) => r.sales));
+  el.innerHTML = rows.map((r, i) =>
+    `<div class="hbar" data-tip="${esc(r.tip)}"><div class="name" title="${esc(r.name)}"><span class="rank">${i + startRank}</span>${esc(r.name)}</div>` +
+    `<div class="track"><div class="fill" style="width:${(r.sales / max * 100).toFixed(2)}%"></div></div><div class="val">${gbp(r.sales, 0)}</div></div>`).join("");
+}
+hbars($("products"), DATA.products.map((p) => ({ ...p,
+  tip: `<b>${p.name}</b>รหัส ${p.code}<br>ยอดขาย ${gbp(p.sales)}<br>ขายได้ ${num(p.qty)} ชิ้น · ${(p.sales / k.sales * 100).toFixed(2)}% ของยอดขายรวม` })), 1);
+
+function drawCountries(excludeTop) {
+  const all = DATA.countries, top = all[0];
+  const rows = (excludeTop ? all.slice(1, 11) : all.slice(0, 10)).map((c) => ({ ...c,
+    tip: `<b>${c.name}</b>ยอดขาย ${gbp(c.sales)}<br>${num(c.orders)} ออร์เดอร์ · ${(c.sales / k.sales * 100).toFixed(2)}% ของยอดขายรวม` }));
+  hbars($("countries"), rows, excludeTop ? 2 : 1);
+  $("countryDesc").textContent = excludeTop
+    ? `อันดับ 2–11 (ไม่รวม ${top.name}) · ยอดขาย (£)`
+    : `${top.name} คิดเป็น ${(top.sales / k.sales * 100).toFixed(1)}% ของยอดขายรวม · ยอดขาย (£)`;
+  $("btnAll").setAttribute("aria-pressed", String(!excludeTop));
+  $("btnEx").setAttribute("aria-pressed", String(excludeTop));
+}
+$("btnAll").onclick = () => drawCountries(false);
+$("btnEx").onclick = () => drawCountries(true);
+drawCountries(false);
+
+// ---------- Heatmap วัน × ชั่วโมง ----------
+(() => {
+  const RAMP = ["#DBEAFE", "#BFDBFE", "#93C5FD", "#60A5FA", "#3B82F6", "#2563EB", "#1D4ED8", "#1E3A8A"];
+  const [h0, h1] = DATA.hours, hours = [];
+  for (let h = h0; h <= h1; h++) hours.push(h);
+  const map = new Map(DATA.heat.map((c) => [c.d + "-" + c.h, c]));
+  const max = Math.max(...DATA.heat.map((c) => c.sales));
+  const el = $("heat");
+  el.style.gridTemplateColumns = `auto repeat(${hours.length}, minmax(0, 1fr))`;
+  let s = "<div></div>" + hours.map((h) => `<div class="hl">${h}</div>`).join("");
+  DATA.weekdays.forEach((name, i) => {
+    s += `<div class="dl">${name}</div>`;
+    hours.forEach((h) => {
+      const c = map.get(i + 1 + "-" + h);
+      if (!c) { s += `<div class="cell" data-tip="${esc(`<b>วัน${name} ${h}:00–${h}:59</b>ไม่มียอดขาย`)}"></div>`; return; }
+      const idx = Math.min(RAMP.length - 1, Math.floor(c.sales / max * RAMP.length));
+      s += `<div class="cell" style="background:${RAMP[idx]}" data-tip="${esc(`<b>วัน${name} ${h}:00–${h}:59</b>ยอดขาย ${gbp(c.sales)}<br>${num(c.orders)} ออร์เดอร์`)}"></div>`;
+    });
+  });
+  el.innerHTML = s;
+  $("ramp").innerHTML = RAMP.map((c) => `<i style="background:${c}"></i>`).join("");
+  const best = DATA.heat.reduce((a, b) => (b.sales > a.sales ? b : a));
+  const byDay = DATA.weekdays.map((n, i) => ({ n, v: DATA.heat.filter((c) => c.d === i + 1).reduce((t, c) => t + c.sales, 0) }));
+  const bd = byDay.reduce((a, b) => (b.v > a.v ? b : a)), none = byDay.filter((d) => d.v === 0).map((d) => "วัน" + d.n);
+  $("insightHeat").innerHTML = `ช่วงที่ขายดีที่สุดคือ <b>วัน${DATA.weekdays[best.d - 1]} ${best.h}:00–${best.h}:59</b> (${gbp(best.sales)}) · วันที่ยอดขายรวมสูงสุดคือ <b>วัน${bd.n}</b>` +
+    (none.length ? ` · ไม่มียอดขายใน${none.join(", ")}` : "");
+})();
+
+// ---------- Tooltip ----------
+(() => {
+  const tip = $("tip");
+  const show = (e) => {
+    const t = e.target.closest("[data-tip]");
+    if (!t) { tip.style.opacity = 0; return; }
+    tip.innerHTML = t.dataset.tip;
+    const pad = 12, w = tip.offsetWidth, h = tip.offsetHeight;
+    let x = e.clientX + pad, y = e.clientY + pad;
+    if (x + w > innerWidth - 8) x = Math.max(8, e.clientX - w - pad);
+    if (y + h > innerHeight - 8) y = Math.max(8, e.clientY - h - pad);
+    tip.style.left = x + "px"; tip.style.top = y + "px"; tip.style.opacity = 1;
+  };
+  document.addEventListener("pointermove", show);
+  document.addEventListener("pointerdown", show);
+  document.addEventListener("scroll", () => (tip.style.opacity = 0), { passive: true });
+})();
+
+drawMonthly();
+let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(drawMonthly, 100); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawMonthly);
+</script>
+</body>
+</html>

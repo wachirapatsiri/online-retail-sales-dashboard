@@ -1,0 +1,345 @@
+{
+  "source": {
+    "file": "online_retail_II.xlsx",
+    "sheet": "Year 2010-2011",
+    "currency": "GBP"
+  },
+  "shape": {
+    "rows": 541910,
+    "columns": [
+      "Invoice",
+      "StockCode",
+      "Description",
+      "Quantity",
+      "InvoiceDate",
+      "Price",
+      "Customer ID",
+      "Country"
+    ]
+  },
+  "date_range": {
+    "min": "2010-12-01 08:26:00",
+    "max": "2011-12-09 12:50:00"
+  },
+  "unique": {
+    "invoices": 25900,
+    "stock_codes": 4070,
+    "customers": 4372,
+    "countries": 38
+  },
+  "issues": {
+    "duplicate_rows_extra": 5268,
+    "duplicate_rows_all_involved": 10147,
+    "customer_id_missing": 135080,
+    "description_missing": 1454,
+    "description_leading_trailing_space": 113452,
+    "description_not_uppercase": 3036,
+    "stock_codes_with_multiple_descriptions": 639,
+    "stock_code_lowercase_variant_rows": 1977,
+    "quantity_negative": 10624,
+    "quantity_zero": 0,
+    "cancelled_rows": 9288,
+    "cancelled_invoices": 3836,
+    "other_letter_prefix_invoice_rows": 3,
+    "negative_qty_not_cancelled": 1336,
+    "cancelled_but_positive_qty": 0,
+    "price_zero": 2515,
+    "price_negative": 2,
+    "non_product_rows": 2996,
+    "non_product_codes": 33,
+    "country_unspecified_rows": 446
+  },
+  "non_product_codes": [
+    {
+      "code": "POST",
+      "rows": 1257,
+      "example": "POSTAGE",
+      "amount_gbp": 66248.64
+    },
+    {
+      "code": "DOT",
+      "rows": 710,
+      "example": "DOTCOM POSTAGE",
+      "amount_gbp": 206245.48
+    },
+    {
+      "code": "M",
+      "rows": 571,
+      "example": "Manual",
+      "amount_gbp": -68674.19
+    },
+    {
+      "code": "C2",
+      "rows": 144,
+      "example": "CARRIAGE",
+      "amount_gbp": 6986.0
+    },
+    {
+      "code": "D",
+      "rows": 77,
+      "example": "Discount",
+      "amount_gbp": -5696.22
+    },
+    {
+      "code": "S",
+      "rows": 63,
+      "example": "SAMPLES",
+      "amount_gbp": -3049.39
+    },
+    {
+      "code": "BANK CHARGES",
+      "rows": 37,
+      "example": "Bank Charges",
+      "amount_gbp": -7175.64
+    },
+    {
+      "code": "AMAZONFEE",
+      "rows": 34,
+      "example": "AMAZON FEE",
+      "amount_gbp": -221520.5
+    },
+    {
+      "code": "CRUK",
+      "rows": 16,
+      "example": "CRUK Commission",
+      "amount_gbp": -7933.43
+    },
+    {
+      "code": "DCGSSGIRL",
+      "rows": 13,
+      "example": "GIRLS PARTY BAG",
+      "amount_gbp": 144.43
+    },
+    {
+      "code": "DCGSSBOY",
+      "rows": 11,
+      "example": "BOYS PARTY BAG",
+      "amount_gbp": 150.55
+    },
+    {
+      "code": "gift_0001_20",
+      "rows": 10,
+      "example": "Dotcomgiftshop Gift Voucher £20.00",
+      "amount_gbp": 167.05
+    },
+    {
+      "code": "gift_0001_10",
+      "rows": 9,
+      "example": "Dotcomgiftshop Gift Voucher £10.00",
+      "amount_gbp": 74.97
+    },
+    {
+      "code": "gift_0001_30",
+      "rows": 8,
+      "example": "Dotcomgiftshop Gift Voucher £30.00",
+      "amount_gbp": 175.53
+    },
+    {
+      "code": "DCGS0003",
+      "rows": 5,
+      "example": "BOXED GLASS ASHTRAY",
+      "amount_gbp": 9.94
+    },
+    {
+      "code": "gift_0001_50",
+      "rows": 4,
+      "example": "Dotcomgiftshop Gift Voucher £50.00",
+      "amount_gbp": 167.56
+    },
+    {
+      "code": "PADS",
+      "rows": 4,
+      "example": "PADS TO MATCH ALL CUSHIONS",
+      "amount_gbp": 0.0
+    },
+    {
+      "code": "gift_0001_40",
+      "rows": 3,
+      "example": "Dotcomgiftshop Gift Voucher £40.00",
+      "amount_gbp": 100.7
+    },
+    {
+      "code": "B",
+      "rows": 3,
+      "example": "Adjust bad debt",
+      "amount_gbp": -11062.06
+    },
+    {
+      "code": "DCGS0069",
+      "rows": 2,
+      "example": "OOH LA LA DOGS COLLAR",
+      "amount_gbp": 15.79
+    },
+    {
+      "code": "DCGS0070",
+      "rows": 2,
+      "example": "CAMOUFLAGE DOG COLLAR",
+      "amount_gbp": 12.72
+    },
+    {
+      "code": "DCGS0076",
+      "rows": 2,
+      "example": "SUNJAR LED NIGHT NIGHT LIGHT",
+      "amount_gbp": 48.39
+    },
+    {
+      "code": "DCGS0072",
+      "rows": 1,
+      "example": null,
+      "amount_gbp": 0.0
+    },
+    {
+      "code": "DCGS0074",
+      "rows": 1,
+      "example": null,
+      "amount_gbp": 0.0
+    },
+    {
+      "code": "DCGS0073",
+      "rows": 1,
+      "example": "ebay",
+      "amount_gbp": 0.0
+    },
+    {
+      "code": "DCGS0071",
+      "rows": 1,
+      "example": null,
+      "amount_gbp": 0.0
+    },
+    {
+      "code": "DCGS0068",
+      "rows": 1,
+      "example": "ebay",
+      "amount_gbp": 0.0
+    },
+    {
+      "code": "DCGS0067",
+      "rows": 1,
+      "example": "ebay",
+      "amount_gbp": 0.0
+    },
+    {
+      "code": "DCGS0066P",
+      "rows": 1,
+      "example": null,
+      "amount_gbp": 0.0
+    },
+    {
+      "code": "DCGS0057",
+      "rows": 1,
+      "example": null,
+      "amount_gbp": 0.0
+    },
+    {
+      "code": "DCGS0055",
+      "rows": 1,
+      "example": null,
+      "amount_gbp": 0.0
+    },
+    {
+      "code": "DCGS0004",
+      "rows": 1,
+      "example": "HAYNES CAMPER SHOULDER BAG",
+      "amount_gbp": 16.63
+    },
+    {
+      "code": "m",
+      "rows": 1,
+      "example": "Manual",
+      "amount_gbp": 2.55
+    }
+  ],
+  "other_prefix_invoices": [
+    {
+      "Invoice": "A563185",
+      "StockCode": "B",
+      "Description": "Adjust bad debt",
+      "Quantity": "1",
+      "Price": "11062.06"
+    },
+    {
+      "Invoice": "A563186",
+      "StockCode": "B",
+      "Description": "Adjust bad debt",
+      "Quantity": "1",
+      "Price": "-11062.06"
+    },
+    {
+      "Invoice": "A563187",
+      "StockCode": "B",
+      "Description": "Adjust bad debt",
+      "Quantity": "1",
+      "Price": "-11062.06"
+    }
+  ],
+  "extremes": {
+    "quantity_max": 80995,
+    "quantity_min": -80995,
+    "price_max": 38970.0,
+    "price_min": -11062.06
+  },
+  "amount_gbp": {
+    "all_rows_sum": 9747765.93,
+    "cancelled_rows_sum": -896812.49,
+    "non_product_rows_sum": -44544.5,
+    "preliminary_clean_sales_sum": 10271034.61
+  },
+  "preliminary_clean_sales": {
+    "rows": 527725,
+    "invoices": 19773,
+    "rows_without_customer_id": 131388,
+    "duplicate_rows_extra": 5221
+  },
+  "rows_per_month": {
+    "2010-12": 42481,
+    "2011-01": 35147,
+    "2011-02": 27707,
+    "2011-03": 36748,
+    "2011-04": 29916,
+    "2011-05": 37030,
+    "2011-06": 36874,
+    "2011-07": 39518,
+    "2011-08": 35284,
+    "2011-09": 50226,
+    "2011-10": 60742,
+    "2011-11": 84711,
+    "2011-12": 25526
+  },
+  "top_countries_rows": {
+    "United Kingdom": 495478,
+    "Germany": 9495,
+    "France": 8558,
+    "EIRE": 8196,
+    "Spain": 2533,
+    "Netherlands": 2371,
+    "Belgium": 2069,
+    "Switzerland": 2002
+  },
+  "sample_lowercase_descriptions": {
+    "Manual": 572,
+    "BAG 125g SWIRLY MARBLES": 304,
+    "BAG 250g SWIRLY MARBLES": 252,
+    "3 TRADITIONAl BISCUIT CUTTERS  SET": 240,
+    "POLYESTER FILLER PAD 40x40cm": 193,
+    "FRENCH BLUE METAL DOOR SIGN No": 167,
+    "check": 159,
+    "BAG 500g SWIRLY MARBLES": 146,
+    "POLYESTER FILLER PAD 45x45cm": 144,
+    "Next Day Carriage": 80,
+    "Discount": 77,
+    "damages": 45,
+    "damaged": 43,
+    "POLYESTER FILLER PAD 45x30cm": 38,
+    "Bank Charges": 37,
+    "NUMBER TILE VINTAGE FONT No ": 35,
+    "NUMBER TILE COTTAGE GARDEN No": 34,
+    "ESSENTIAL BALM 3.5g TIN IN ENVELOPE": 31,
+    "POLYESTER FILLER PAD 30CMx30CM": 26,
+    "found": 25,
+    "sold as set on dotcom": 20,
+    "adjustment": 16,
+    "CRUK Commission": 16,
+    "Damaged": 14,
+    "FOLK ART GREETING CARD,pack/12": 11
+  }
+}
