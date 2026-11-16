@@ -4,6 +4,8 @@ A personal data-analytics project: turning a messy online-store sales export int
 
 All figures are in **GBP (£)**.
 
+**[View the live Looker Studio dashboard](https://datastudio.google.com/reporting/40d68cb5-a199-4516-911c-f0de41a53d7e)**
+
 ![Dashboard](images/dashboard_desktop.png)
 
 ## The problem
@@ -52,6 +54,10 @@ Two decisions worth noting:
 | Period | 1 Dec 2010 – 9 Dec 2011 (Dec 2011 is a partial month) |
 
 A few things the dashboard makes visible: Sep–Nov 2011 brought in 35.8% of the year's sales; the UK is 84.8% of sales but overseas customers spend about 1.7x more per order; 75.5% of sales happen between 10:00 and 15:59; and the ten best-selling products together make up only 8.2% of sales.
+
+### Dashboard (Looker Studio)
+
+The same clean data powers an interactive Looker Studio dashboard (KPI cards, monthly sales, top products and countries, a weekday-by-hour heatmap, and a short "what the data says" box): **[open it here](https://datastudio.google.com/reporting/40d68cb5-a199-4516-911c-f0de41a53d7e)**. The Thai step-by-step build guide is in `looker_studio_guide.md`.
 
 ### Dashboard (HTML)
 
