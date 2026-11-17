@@ -71,6 +71,17 @@ check("kpi_summary: ยอดขาย", ks["Sales_GBP"].sum(), ref["sales"], 0.
 check("kpi_summary: ยอดคืน", ks["Returns_GBP"].sum(), ref["returns"], 0.01)
 check("kpi_summary: สุทธิ", ks["Net_GBP"].sum(), ref["net"], 0.01)
 
+# 5b) ตารางสำหรับ Looker Studio (Google Sheets) ต้องรวมได้ตรงกับยอดหลัก
+lm = pd.read_csv(ROOT / "data" / "clean" / "looker_monthly_country.csv")
+check("looker_monthly: ยอดขาย", lm["Sales_GBP"].sum(), ref["sales"], 0.01)
+check("looker_monthly: ออร์เดอร์", lm["Orders"].sum(), ref["orders"], 0)
+check("looker_monthly: ชิ้น", lm["Units"].sum(), ref["units"], 0)
+check("looker_monthly: ยอดคืน", lm["Returns_GBP"].sum(), ref["returns"], 0.01)
+lp = pd.read_csv(ROOT / "data" / "clean" / "looker_product_country.csv")
+check("looker_product: ยอดขาย", lp["Sales_GBP"].sum(), ref["sales"], 0.05)
+lw = pd.read_csv(ROOT / "data" / "clean" / "looker_weekday_hour_country.csv")
+check("looker_weekday_hour: ยอดขาย", lw["Sales_GBP"].sum(), ref["sales"], 0.05)
+
 # 6) เอกสาร: ตัวเลขที่เขียนไว้ต้องตรงกับค่าจริง
 text = (ROOT / "README.md").read_text(encoding="utf-8")
 if (ROOT / "portfolio_th.md").exists():  # ไฟล์นี้เก็บไว้ในเครื่องเท่านั้น ไม่ขึ้น GitHub
