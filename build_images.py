@@ -232,6 +232,55 @@ h1 .new{{display:block;color:#1D4ED8;font-size:84px}}
     shot(p, IMG / "cover.png", 1280, 720)
 
 
+def build_cover_shop() -> None:
+    """ปกแบบภาษาเจ้าของร้าน: ไม่มีศัพท์เทคนิค ไม่มีหน่วย £ ตัวใหญ่ ตัวเลขทุกตัวมาจาก dashboard_data.json"""
+    months = dash["monthly"]
+    best = max(months, key=lambda m: m["sales"])
+    mx = best["sales"]
+    bars = ""
+    for m in months:
+        h = round(m["sales"] / mx * 100)
+        col = "#1E3A8A" if m is best else ("#93C5FD" if m["partial"] else "#60A5FA")
+        bars += f'<i style="height:{h}%;background:{col}"></i>'
+    k = dash["kpi"]
+    page = f"""<!doctype html><html lang="th"><head><meta charset="utf-8">{FONT_LINK}
+<style>
+*{{box-sizing:border-box}} html,body{{margin:0;width:1280px;height:720px;overflow:hidden}}
+body{{font-family:{FONT};background:linear-gradient(135deg,#FFFFFF 0%,#EFF6FF 55%,#DBEAFE 100%);position:relative;color:#0F172A}}
+.blob{{position:absolute;right:-160px;top:-180px;width:640px;height:640px;border-radius:50%;background:#BFDBFE;opacity:.5}}
+.left{{position:absolute;left:68px;top:70px;width:650px}}
+.tag{{display:inline-block;background:#1E3A8A;color:#fff;border-radius:999px;padding:8px 24px;font-size:26px;font-weight:600}}
+h1{{margin:24px 0 0;font-size:62px;line-height:1.25;font-weight:700;color:#0F172A}}
+h1 em{{font-style:normal;color:#2563EB}}
+.pain{{margin-top:20px;display:flex;flex-direction:column;gap:10px}}
+.pain div{{font-size:27px;color:#334155;display:flex;align-items:center;gap:12px}}
+.pain div:before{{content:"✓";display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:#059669;color:#fff;font-size:21px;font-weight:700;flex:none}}
+.chips{{margin-top:26px;display:flex;gap:12px}} .chips span{{background:#fff;border:2px solid #BFDBFE;color:#1E3A8A;border-radius:12px;padding:8px 18px;font-size:23px;font-weight:600}}
+.card{{position:absolute;right:58px;top:96px;width:500px;background:#fff;border-radius:22px;padding:26px 28px;box-shadow:0 26px 60px rgba(30,58,138,.26);border:1px solid #DBEAFE}}
+.card .t{{font-size:21px;color:#1E3A8A;font-weight:700}}
+.kp{{display:flex;gap:12px;margin-top:14px}}
+.kp div{{flex:1;background:#EFF6FF;border-top:4px solid #2563EB;border-radius:10px;padding:10px 12px}} .kp div.o{{background:#FFF7ED;border-top-color:#EA580C}} .kp div.g{{background:#ECFDF5;border-top-color:#059669}}
+.kp small{{display:block;font-size:15px;color:#64748B}} .kp b{{font-size:27px;color:#1E3A8A}} .kp .o b{{color:#C2410C}} .kp .g b{{color:#047857}}
+.chart{{margin-top:52px;height:170px;display:flex;align-items:flex-end;gap:7px;border-bottom:2px solid #E2E8F0;padding:0 4px;position:relative}}
+.chart i{{flex:1;border-radius:5px 5px 0 0;display:block}}
+.best{{position:absolute;right:30px;top:-40px;background:#1E3A8A;color:#fff;font-size:15px;font-weight:600;padding:4px 10px;border-radius:8px}}
+.cap{{font-size:15px;color:#64748B;margin-top:8px}}
+.src{{position:absolute;left:68px;bottom:24px;font-size:16px;color:#64748B}}
+</style></head><body><div class="blob"></div>
+<div class="left"><span class="tag">รับทำ Excel สรุปยอดขาย + แดชบอร์ด</span>
+<h1>ไฟล์ยอดขายร้านออนไลน์<br><em>อ่านง่ายในหน้าเดียว</em></h1>
+<div class="pain"><div>แยกออร์เดอร์ยกเลิก/คืนสินค้าออกจากยอดขาย</div><div>ตัดค่าส่ง รายการซ้ำ ยอดไม่ตรงหายหมด</div><div>เห็นเดือนขายดี สินค้าขายดีทันที</div></div>
+<div class="chips"><span>รับไฟล์ Excel / CSV</span><span>ดูบนมือถือได้</span></div></div>
+<div class="card"><div class="t">ตัวอย่างแดชบอร์ดที่ได้รับ</div>
+<div class="kp"><div><small>ออร์เดอร์ทั้งหมด</small><b>{k['orders']:,}</b></div><div class="g"><small>เดือนขายดีสุด</small><b>{best['full'].split()[0]}</b></div><div class="o"><small>อัตราคืนสินค้า</small><b>{k['return_rate']:.2f}%</b></div></div>
+<div class="chart"><span class="best">ขายดีสุด</span>{bars}</div><div class="cap">ยอดขายรายเดือน (ธ.ค. เดือนสุดท้ายมีข้อมูลไม่เต็มเดือน)</div></div>
+<div class="src">ภาพตัวอย่างจากข้อมูลร้านค้าสาธารณะ · งานลูกค้าจริงแสดงเป็นเงินบาท</div>
+</body></html>"""
+    p = SRC / "cover_shop.html"
+    p.write_text(page, encoding="utf-8")
+    shot(p, IMG / "cover_shop.png", 1280, 720)
+
+
 # ------------------------------------------------------------------ แคปแดชบอร์ด
 def trim(path: Path, bottom_pad: int = 0) -> None:
     """ตัดพื้นที่ว่างด้านล่างที่เกินเนื้อหา"""
@@ -266,6 +315,7 @@ if __name__ == "__main__":
     SRC.mkdir(exist_ok=True)
     build_before_after()
     build_cover()
+    build_cover_shop()
     build_dashboard_shots()
     for f in ["before_after", "cover", "dashboard_desktop", "dashboard_mobile"]:
         im = Image.open(IMG / f"{f}.png")
